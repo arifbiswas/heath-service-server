@@ -8,9 +8,10 @@ const getALlPatients = async (req,res) =>{
         console.log(error)
       }
 }
-const getAdminUser = async (req,res)=>{
+const getPatientAndAdmin = async (req,res)=>{
     try {
         const email = req.params.email;
+        // console.log(email)
         const query = { email: email };
         const user = await User.findOne(query);
         let isAdmin = false;
@@ -34,8 +35,7 @@ const postPatientOnUser = async (req ,res)=>{
 const deletePatientById = async(req ,res)=>{
     try {
         const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const result = await User.deleteOne(query);
+        const result = await User.deleteOne({_id : id});
         res.send(result);
       } catch (error) {
         console.log(error)
@@ -65,7 +65,7 @@ const makeAdminUser = async (req,res)=>{
 }
 module.exports ={
     getALlPatients,
-    getAdminUser,
+    getPatientAndAdmin,
     postPatientOnUser,
     deletePatientById,
     makeAdminUser

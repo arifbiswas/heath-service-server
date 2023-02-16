@@ -1,10 +1,10 @@
 const express = require("express");
-const { getALlPatients, getAdminUser, postPatientOnUser, deletePatientById, makeAdminUser } = require("../controllers/userController");
+const { getALlPatients, postPatientOnUser, deletePatientById, makeAdminUser, getPatientAndAdmin } = require("../controllers/userController");
 const router = express.Router();
 
-router.get("/",getALlPatients)
-router.get("/admin",getAdminUser)
-router.post("/patient",postPatientOnUser)
+router.get("/patients",getALlPatients)
+router.get("/:email",getPatientAndAdmin)
+router.post("/patients",postPatientOnUser)
 router.delete("/:id",deletePatientById)
 router.put("/makeAdmin",makeAdminUser)
 

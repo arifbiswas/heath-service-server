@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Order = require("../modals/orderSchema");
 
 const getALlUserAppointmentOrders = async (req , res)=>{
@@ -5,49 +6,48 @@ const getALlUserAppointmentOrders = async (req , res)=>{
         const result = await Order.find({});
         res.send(result);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 }
 const getSigleUserAppointmentOrders = async(req,res)=>{
     try {
         const email = req.query.email;
-        const query = { patientEmail: email };
-        const userAppointments = await Order.find(query);
+        // console.log(email)
+        const userAppointments = await Order.find({"patientEmail": email});
         res.send(userAppointments);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 };
 const getUserTodayOrdersAppointments = async (req , res)=>{
     try {
-        const date = new Date(req.query.date);
-        const query = { date: date.toLocaleDateString() };
-        const userAppointments = await Order.find(query);
+        const date = req.query.date;
+        // console.log(date)
+        const userAppointments = await Order.find({"date": date});
+        // console.log(userAppointments)
         res.send(userAppointments);
     } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 }
 const getAppointmentById = async (req , res)=>{
     try {
         const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const result = await Order.findOne(query);
+        const result = await Order.findById({_id : id});
         res.send(result);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 }
 const getUserappointmentsED = async (req,res)=>{
     try {
-        const email = req.query.email;
-        const date = req.query.date;
-        const query = { patientEmail: email, date: date };
-        const userSpecificAppointments = await Order.find(query);
+        const {email ,date} = req.query
+        // console.log(email , date)
+        const userSpecificAppointments = await Order.find({ "patientEmail": email , "date" :date });
         
         res.send(userSpecificAppointments);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 }
  
@@ -57,18 +57,18 @@ const postOrderOnUser = async (req , res)=>{
         const result = await Order.create(order);
         res.send(result);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 };
 
 const deleteUserAppointments = async (req , res)=>{
     try {
         const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const result = await Order.deleteOne(query);
+      
+        const result = await Order.findByIdAndDelete({_id :id});
         res.send(result);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
     
 };
@@ -77,16 +77,16 @@ const updateAppointmentById = async (req ,res)=>{
     try {
         const id = req.params.id;
         const payment = req.body;
-        const filter = { _id: ObjectId(id) };
+        const filter = { _id: id };
         const updateDoc = {
           $set: {
             payment: payment,
           },
         };
-        const result = await Order.updateOne(filter, updateDoc);
+        const result = await Order.findByIdAndUpdate(filter, updateDoc);
         res.send(result);
       } catch (error) {
-        console.log(error)
+        console.log(error.message , error.dir)
       }
 }
 

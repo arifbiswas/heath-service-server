@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const orderSchema = mongoose.Schema({
-    _id : mongoose.Schema.Types.ObjectId,
+    // _id : mongoose.Schema.Types.ObjectId,
     patientName: String,
   patientEmail: String,
   address: String,

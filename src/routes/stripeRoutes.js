@@ -3,6 +3,6 @@ const { stripeOrderDocuments } = require("../controllers/stripeController");
 
 const router = express.Router();
 
-router.post("/",stripeOrderDocuments)
+router.post("/create-payment-intent",stripeOrderDocuments)
 
 module.exports = router;
